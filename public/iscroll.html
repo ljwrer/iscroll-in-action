@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<link rel="stylesheet" href="css/common/reset.css">-->
+    <script src="js/flexible.js"></script>
+    <style>
+        #wrapper {
+            height: 300px;
+            margin: 20px;
+            outline: 1px solid deepskyblue;
+            overflow: hidden;
+        }
+
+        #scroll {
+            outline: 1px solid black;
+            min-height: 110%;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper">
+    <ul id="scroll">
+        <li>Lorem ipsum.</li>
+        <li>Error, labore!</li>
+        <li>Dolore, quas.</li>
+        <li>Sunt, voluptas.</li>
+        <li>Recusandae, sequi?</li>
+        <li>Iste, quidem.</li>
+        <li>Eligendi, error?</li>
+        <li>Magni, perspiciatis.</li>
+        <li>Eveniet, voluptates.</li>
+        <li>At, mollitia.</li>
+    </ul>
+</div>
+<script src="js/iscroll-probe.js"></script>
+<script>
+    window.onload = function () {
+        var myScroll = new IScroll("#wrapper");
+        myScroll.on("scroll", (function (self) {
+            return function () {
+                console.log(self.y);
+            }
+        })(this));
+    }
+</script>
+</body>
+</html>

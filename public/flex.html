@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/common/reset.css">
+    <script src="js/flexible.js"></script>
+    <!--<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>-->
+    <!--<meta name="viewport" content="initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">-->
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div class="box"></div>
+<p>documentEle</p>
+<p>body</p>
+<script>
+    document.querySelector("p").innerText+=document.documentElement.getBoundingClientRect().width;
+    document.querySelectorAll("p")[1].innerText+=window.getComputedStyle(document.body).width;
+</script>
+</body>
+</html>

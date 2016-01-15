@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/flexible.js"></script>
+    <!--<link rel="stylesheet" href="css/common/reset.css">-->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="g-viewport">
+    <div id="before" class="bf">before<span></span></div>
+    <div id="wrapper" class="m-wrapper">
+        <div class="scroll">
+            <p class="pull-down">下拉刷新</p>
+            <ul id="list" class="list">
+                <li>Lorem ipsum.</li>
+                <li>Deserunt, tempora?</li>
+                <li>Fugiat, quos.</li>
+                <li>Ex, vitae.</li>
+                <li>Excepturi, nemo.</li>
+                <li>Animi, ex?</li>
+                <li>Vel, voluptatum!</li>
+                <li>Eius, enim!</li>
+                <li>Nesciunt, unde!</li>
+                <li>Et, iusto?</li>
+            </ul>
+            <p class="pull-up">上拉加载</p>
+        </div>
+    </div>
+    <div id="after" class="af">after</div>
+</div>
+<script src="js/jquery.min.js"></script>
+<!--<script src="js/iscroll.js"></script>-->
+<script src="js/iscroll-probe.js"></script>
+<script>
+    window.onload = function () {
+        var page=1;
+        var pageSize=10;
+        var top = $(".pull-down").height();
+        var bottom = $(".pull-up").height();
+        var topNum = Math.abs(parseFloat(top));
+        var bottomNum = Math.abs(parseFloat(top));
+        var TOPOFFSET = 5;
+        var BOTTOMOFFSET = 5;
+        var myScroll = new IScroll("#wrapper", {
+            probeType: 3, mouseWheel: true,
+            startY: -topNum
+        });
+        $(".bf span").html(myScroll.y + " max:" + myScroll.maxScrollY+":"+myScroll.wrapperHeight+":"+myScroll.scrollerHeight);
+        var tid;
+        var isPullDown = false;
+        var isPullUp = false;
+        myScroll.on("scrollStart", function () {
+            $(".bf span").html(myScroll.y + " max:" + myScroll.maxScrollY+":"+myScroll.wrapperHeight+":"+myScroll.scrollerHeight);
+        });
+        myScroll.on('scroll', function () {
+            $(".bf span").html(myScroll.y + " max:" + myScroll.maxScrollY+":"+myScroll.wrapperHeight+":"+myScroll.scrollerHeight);
+            if (this.y - TOPOFFSET >= 0) {
+                $(".pull-down").html("释放刷新");
+                isPullDown = true;
+            } else if (this.y <= this.maxScrollY - BOTTOMOFFSET) {
+                $(".pull-up").html("释放刷新");
+                isPullUp = true;
+            }
+        });
+        myScroll.on("scrollEnd", function () {
+            $(".bf span").html(myScroll.y + " max:" + myScroll.maxScrollY+":"+myScroll.wrapperHeight+":"+myScroll.scrollerHeight);
+            if (isPullDown) {
+                $(".pull-down").html("加载中");
+                tid && clearTimeout(tid);
+                tid = setTimeout(pullDownUpdate, 500);
+            } else if (isPullUp) {
+                $(".pull-up").html("加载中");
+                tid && clearTimeout(tid);
+                tid = setTimeout(pullUpUpdate, 500);
+            }else if (this.y > -topNum && this.y < TOPOFFSET) {
+                myScroll.scrollTo(0, -topNum);
+            } else if (this.y > this.maxScrollY - BOTTOMOFFSET && this.y < this.maxScrollY + bottomNum) {
+//                myScroll.scrollTo(0, this.maxScrollY + bottomNum);
+            }
+
+        });
+        var index = 0;
+        var pullDownUpdate = function (top) {
+            setTimeout(function () {
+                var content = [];
+                for (var i = 0; i < 10; i++) {
+                    content.unshift('<li>item:' + i + '</li>');
+                    index=i;
+                }
+                content = content.join("");
+                $("#list").html(content);
+                myScroll.refresh();
+                $(".pull-down").html("下拉刷新");
+                myScroll.scrollTo(0, -topNum);
+                isPullDown = false;
+            }, 1000);
+        };
+        var pullUpUpdate = function () {
+            setTimeout(function () {
+                var content = [];
+                for (var i = 0; i < 10; i++) {
+                    content.push('<li>item:' + index + '</li>');
+                    index++;
+                }
+                content = content.join("");
+                $("#list").append(content);
+                myScroll.refresh();
+                $(".pull-up").html("上拉加载");
+//                myScroll.scrollTo(0,-topNum);
+//                if()
+                isPullUp = false;
+            }, 1000);
+        }
+        $.getJSON("/api/count",{page:1})
+                .then(function(data){
+                    alert(data.total);
+                })
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/common/reset.css">
+    <style>
+        .p1 {
+            position: absolute;
+            background: red;
+            height: 100px;
+            width: 100px;
+        }
+
+        .p2 {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            /*height: 200px;*/
+            /*width: 200px;*/
+            right: 100px;
+            bottom: 100px;
+            background: yellow;
+        }
+
+        .p3 {
+            height: 100px;
+            width: 100px;
+            bottom: 0;
+            position: absolute;
+            background: green;
+        }
+
+        .s2 {
+            background: deepskyblue;
+            position: absolute;
+            top: 10px;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body style="height: 3000px">
+<div class="p1 p"></div>
+<div class="p2 p">
+    <div class="s s2">
+        <div>Lorem ipsum.</div>
+        <div style="height: 100%">Enim, libero.</div>
+        <div>Illum, iure!</div>
+    </div>
+</div>
+<div class="p3 p"></div>
+</body>
+</html>
